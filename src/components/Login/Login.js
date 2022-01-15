@@ -52,37 +52,42 @@ const Login = (props) => {
     }
   }, [])
 
-  // useEffect(() => {
-  //   const indentifier = setTimeout(() => {
-  //     console.log('Checking form validity')
-  //     setFormIsValid(
-  //       enteredEmail.includes('@') && enteredPassword.trim().length > 6
-  //     );
-  //   }, 500)
+  // Object destructuring to pull certain property of objexcts
+  // this is called alias assignment 
+  const { isValid: emailIsValid } = emailState
+  const { isValid: passwordIsValid } = passwordState
 
-  //   return () => {
-  //     console.log('CLEAN UP')
-  //     clearTimeout(indentifier)
-  //   }
-  // }, [enteredEmail, enteredPassword])
+  // ------   useEffect for state upadate
+  useEffect(() => {
+    const indentifier = setTimeout(() => {
+      console.log('Checking form validity')
+      // setFormIsValid( emailState.isValid && passwordState.isValid)
+      setFormIsValid(emailIsValid && passwordIsValid);
+    }, 500)
+
+    return () => {
+      console.log('CLEAN UP')
+      clearTimeout(indentifier)
+    }
+  }, [emailState, passwordState])
 
   const emailChangeHandler = (event) => {
     // setEnteredEmail(event.target.value);
     dispatchEmail({ type: 'USER_INPUT', val: event.target.value })
 
-    setFormIsValid(
-      event.target.value.includes('@') && passwordState.isValid
-    )
+    // setFormIsValid(
+    //   event.target.value.includes('@') && passwordState.isValid
+    // )
   };
 
   const passwordChangeHandler = (event) => {
     // setEnteredPassword(event.target.value);
     dispatchPassword({ type: 'USER_INPUT', val: event.target.value })
 
-    setFormIsValid(
-      // enteredEmail.value.includes('@') && event.target.value.trim().length > 6
-      emailState.isValid && event.target.value.trim().length > 6
-    )
+    // setFormIsValid(
+    //   // enteredEmail.value.includes('@') && event.target.value.trim().length > 6
+    //   emailState.isValid && event.target.value.trim().length > 6
+    // )
   };
 
   const validateEmailHandler = () => {
